@@ -5,4 +5,11 @@ I made the 17.hs file for this chapter.
 
 Chapter 2, First steps
 In this chapter you learn how to use the Hugs compiler. A quick but detailed explanation of the basic rules like function application. 
-Some library functions are introduced. You start to see the possibilities. I write a Haskell script, based on the book.
+Some library functions are introduced. You start to see the possibilities. I write a Haskell script, based on the book, named 24.hs.
+The exercises are on the right level. You define your own programs with the help of the library functions.
+
+Chapter 3, Types and Classes
+This chapter is a bit heavier, and I had to read some things twice. It goes through Types and curried functions and Classes.
+The Class concept is a bit hard to grasp. There were lots of new words and terminologies so it was hard for me to understand the text.
+I got some things explained by my dad.
+These exercises were harder.
