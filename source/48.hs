@@ -1,9 +1,9 @@
 --1) halve splits an even-lengthed list into two halves
 --Help with the else case? I want an error message.
 halve:: [a] -> ([a],[a])
-halve (a:as) = if even (length (a:as)) == True
-               then splitAt (div (length (a:as))(2)) (a:as)
-               else ([],[])
+halve as = if even (length as)
+           then splitAt (div (length as)(2)) as
+           else error "Not an even-lengthed list!"
 
 --2a) safetail defined by a conditional expression
 --safetail maps the empty list to itself, i can't make it work
