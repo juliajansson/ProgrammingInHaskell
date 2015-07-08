@@ -17,3 +17,6 @@ These exercises were harder.
 # 2015-07-07: Chapter 4, Defining functions
 I found this chapter really fun and interesting. It's hard to understand the lambda concept, it was not explained enough.
 The exercises were hard but on a good level. After working through them you understand the chapter much better.
+
+#2015-07-08: Chapter 5, List comprehensions
+This chapter started on a high level, introducing the generator concept. It was hard for me to understand.
