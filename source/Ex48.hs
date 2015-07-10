@@ -1,3 +1,4 @@
+
 --1) halve splits an even-lengthed list into two halves
 --Help with the else case? I want an error message.
 halve :: [a] -> ([a],[a])
@@ -63,4 +64,6 @@ a &&? b  = if a then b
 -- 6 define mult x y z=x*y*z in lambda expression
 mult = (\x -> (\y -> (\z -> x*y*z)))
 
+--Lambda expression for odds
+odds n = map (\x -> x*2 + 1)[0..n-1]
 
