@@ -1,12 +1,11 @@
+
 --1) halve splits an even-lengthed list into two halves
---Help with the else case? I want an error message.
 halve :: [a] -> ([a],[a])
 halve as = if even (length as)
            then splitAt (div (length as) 2) as
            else error "Not an even-lengthed list!"
 
 -- 2a) safetail defined by a conditional expression
--- safetail maps the empty list to itself, i can't make it work
 safetail :: [a] -> [a]
 safetail as = if null as
               then []
@@ -68,3 +67,7 @@ mult' =          \x -> \y -> \z -> x*y*z
 
 mult'' :: Num a => a -> a -> a -> a
 mult'' =          \x    y    z -> x*y*z
+
+--Lambda expression for odds
+odds :: Int -> [Int]
+odds n = map (\x -> x*2 + 1) [0..n-1]
