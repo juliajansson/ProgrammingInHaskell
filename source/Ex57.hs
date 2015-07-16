@@ -55,6 +55,28 @@ pyths a = [(x,y,z)|x<-[1..a],y<-[1..a],z<-[1..a],x^2+y^2==z^2]
 
 --4. perfects 500
 --   [6,28,496]
+factors :: Int -> [Int]
+factors n = [x|x<-[1..n],mod n x==0] 
+
 perfects :: Int -> [Int]
 --the factors that matter: b x =take (length (factors x)-1) (factors x)
 --x is a perfect number if sum b==x
+perfects a = [x|x<-[1..a], x==sum (take (length (factors x)-1) (factors x))]
+--(take ((length xs)-1) xs==init xs
+
+--5. show how the single comprehension with two generators can be redefined with two comprehensions with single generators: [(x,y)|x<-[1,2,3],y<-[4,5,6]]
+--Result [(x,y)|x<-[1,2,3],y<-[4,5,6]]=[(1,4),(1,5),(1,6),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6)]
+pairing :: [a] ->[b]->[(a,b)]
+pairing xs ys = concat [[(x,y)|y<-ys]|x<-xs]
+par::[a] ->[b]->[(a,b)]
+par xs ys = [(x,y)|x<-xs,y<-ys]
+
+--6. Redefine the function positions using the function find
+positions:: Eq a => a->[a]->[Int]
+positions b bs= find b (makepairs bs)
+
+find :: Eq a => a -> [(a,b)] -> [b]
+find k t = [v|(k',v)<-t,k==k']
+
+makepairs:: [a]->[(a,Int)]
+makepairs cs = zip cs [1..]
