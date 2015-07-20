@@ -80,3 +80,20 @@ find k t = [v|(k',v)<-t,k==k']
 
 makepairs:: [a]->[(a,Int)]
 makepairs cs = zip cs [1..]
+
+--7.scalarproduct [1,2,3][4,5,6]=32
+scalarproduct:: [Int]->[Int]->Int
+scalarproduct xs ys = sum [x*y|(x,y)<- zip xs ys]
+--chisqr os es = sum [((o-e)^2)/e|(o,e)<-zip os es]
+
+--8. Redefine the Ceasar cipher to handle upper case letters
+shift :: Int -> Char -> Char
+shift n c | isLower c = int2let (mod(let2int c+n)26)
+          | isUpper c = int2let (mod(let2int c+n)26)
+          | otherwise = c
+int2let:: Int -> Char
+int2let n chr (ord 'a'+n)
+let2int:: Char -> Int
+let2int c = ord c - ord 'a'
+--isLower:: Char -> Bool
+--isUpper:: Char -> Bool
