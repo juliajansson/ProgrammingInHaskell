@@ -1,3 +1,4 @@
+import Data.Char (ord, chr)
 --1. Calculate the sum of the first 100 integer squares
 ex1 = [x^2|x<-[1,2..100]]
 
@@ -87,13 +88,20 @@ scalarproduct xs ys = sum [x*y|(x,y)<- zip xs ys]
 --chisqr os es = sum [((o-e)^2)/e|(o,e)<-zip os es]
 
 --8. Redefine the Ceasar cipher to handle upper case letters
+encode:: Int -> String -> String
+encode n xs = [shift n x| x <- xs]
 shift :: Int -> Char -> Char
 shift n c | isLower c = int2let (mod(let2int c+n)26)
-          | isUpper c = int2let (mod(let2int c+n)26)
+          | isUpper c = int2Let (mod(let2int c+n)26)
           | otherwise = c
 int2let:: Int -> Char
-int2let n chr (ord 'a'+n)
+int2let n = chr (ord 'a'+n)
+int2Let:: Int -> Char
+int2Let n = chr (ord 'A'+n)
 let2int:: Char -> Int
 let2int c = ord c - ord 'a'
---isLower:: Char -> Bool
---isUpper:: Char -> Bool
+isLower:: Char -> Bool
+isLower c = c >= 'a' && c <= 'z'
+isUpper:: Char -> Bool
+isUpper c = c >= 'A' && c <= 'Z'
+
