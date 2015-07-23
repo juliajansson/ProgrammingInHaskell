@@ -18,5 +18,9 @@ These exercises were harder.
 I found this chapter really fun and interesting. It's hard to understand the lambda concept, it was not explained enough.
 The exercises were hard but on a good level. After working through them you understand the chapter much better.
 
-#2015-07-08: Chapter 5, List comprehensions
+#2015-07-08 to 2015-07-23: Chapter 5, List comprehensions
 This chapter started on a high level, introducing the generator concept. It was hard for me to understand.
+After working through all of the exercises, things got clearer.
+
+#2015-07-18 to 2015-07-23: Chapter 6, Recursive functions
+Before reading this book, I had tried some programming in Haskell with recursive functions - check out my repository haskellbeginner if you are interested - so it was easy to understand. I think recursive functions are fun and a nice recursive definition is beautiful. Good examples.
