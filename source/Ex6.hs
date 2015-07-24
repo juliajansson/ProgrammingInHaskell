@@ -27,7 +27,7 @@ mydrop n xs= mydrop (n-1)xs
 
 isort:: Ord a=>[a]->[a]
 isort []=[]
-isort (x:xs)=insort x(isort xs)
+isort (x:xs)=insert x(isort xs)
 
 insert:: Ord a=> a->[a]->[a]
 insert x []=[x]
@@ -38,18 +38,19 @@ glue:: [a]->[a]->[a]
 glue [] xs=xs
 glue (x:xs) ys =x:glue xs ys
 
-reverse:: [a]->[a]
-reverse []=[]
-reverse (x:xs)=glue (reverse xs) x
+myreverse:: [a]->[a]
+myreverse []=[]
+myreverse (x:xs)=glue (myreverse xs) [x]
 
-length:: [a]->Int
-length []=0
-length (_:xs) = 1+length xs
+mylength:: [a]->Int
+mylength []=0
+mylength (_:xs) = 1+mylength xs
 
-add:: Num a=> a -> a ->a
+add:: (Eq a,Integral a)=> a -> a ->a
 add m 0=m
-add m n=add (m+1) (n-1)
-
-multiply:: Int -> Int -> Int
+add m n| n>0 =add (m+1) (n-1)
+       | n<0 =add (m-1) (n+1)
+multiply:: (Eq a, Integral a)=> a->a->a
 multiply m 0=0
-multiply m n=add m (n-1)
+multiply m n|n>0=add m (multiply m (n-1))
+            |n<0=add (-m) (multiply m (n+1))
