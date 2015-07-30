@@ -54,3 +54,15 @@ multiply:: (Eq a, Integral a)=> a->a->a
 multiply m 0=0
 multiply m n|n>0=add m (multiply m (n-1))
             |n<0=add (-m) (multiply m (n+1))
+
+myinit:: [a]->[a]
+myinit (x:xs)|null xs=[]
+             |otherwise = x:myinit xs
+
+-- myinit [5,6,7] 
+--(5:myinit [6,7])
+--(5:6:myinit[7])
+--(5:6:[])
+--[5,6]
+
+
