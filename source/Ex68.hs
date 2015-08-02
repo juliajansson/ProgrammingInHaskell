@@ -18,9 +18,9 @@ init [1,2,3]=(1:init [2,3])=(1:2:init[3])=(1:2:[])=[1,2]
 myand::[Bool]->Bool
 myand []        =True
 myand (False:_) =False
-myand (True:xs) |myand xs  =True
-                |otherwise =False
-
+--myand (True:xs) |myand xs  =True
+--                |otherwise =False
+myand (True:xs)=myand xs
 --myconcat:: [[a]]->[a]
 --myconcat [[]]=[]
 --myconcat ((x:xs):xss)=(x:xs:(myconcat xss))
@@ -52,12 +52,18 @@ merge (y:ys) (x:xs)|y<=x       =y:merge ys (x:xs)
                    |otherwise  =x:merge (y:ys) xs
 
 --4. Define msort and halve
-{--
+
 msort:: Ord a => [a]->[a]
 msort [] =[]
 msort [x]=[x]
 --msort xs =halvemerge (halve xs)
-msort xs
+msort xs = let (as,bs) = halve xs
+               sas     = msort as
+               sbs     = msort bs
+           in merge sas sbs
+{--
+msort [3,2,1,0]= merge sas sbs =merge (msort [3,2]) (msort [1,0])= merge (merge [3] [2]) (merge [1] [0])=merge [2,3] [0,1]=0:merge [2,3] [1]=0:1:[2,3]=[0,1,2,3]
+--}
 
 halvemerge::Ord a=> ([a],[a])->[a]
 halvemerge ([],xs)=xs
@@ -68,4 +74,21 @@ halvemerge ((y:ys),(x:xs))|y<=x       =y:halvemerge (ys,(x:xs))
 halve:: [a]->([a],[a])
 halve as | even (length as)= splitAt (div (length as) 2) as
          |otherwise        = splitAt (div ((length as)-1)2) as
---}
+
+--5. Recurively define sum, take and last
+mysum::Num a=>[a]->a
+mysum []=0
+mysum [x]=x
+mysum (x:xs)=x+(mysum xs)
+
+mytake:: Int->[a]->[a]
+mytake 0 xs   =xs
+mytake _ []   =[]
+mytake a (b:bs) |a==1      =[b]
+                |a<0       =error "Can't take a negative amount of numbers!!"
+                |otherwise =(b:mytake (a-1) bs)
+
+mylast:: [a]->a
+mylast []    =error "There is no last element, there is no first element, there is no element at all :O"
+mylast [x]   =x
+mylast (x:xs)=mylast xs
