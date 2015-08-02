@@ -18,7 +18,7 @@ vad blir test testlista?
   test xss
 =
   [(x,xs) | xs <- testlista, x <- xs]
-= xs blir en i taget från testlista: 
+= xs blir en i taget från testlista:
       [(x,[1,7])        | x <- [1,7]]
   ++  [(x,[3])          | x <- [3]]
   ++  [(x,[8, 17, 38])  | x <- [8, 17, 38]]
@@ -26,7 +26,7 @@ vad blir test testlista?
       [(1,[1,7]), (7,[1,7])]
   ++  [(3,[3])]
   ++  [(8, [8, 17, 38]), (17,[8, 17, 38]), (38, [8, 17, 38])]
-= 
+=
   [(1,[1,7]), (7,[1,7]), (3,[3]), (8, [8, 17, 38]), (17,[8, 17, 38]), (38, [8, 17, 38])]
 
 
@@ -43,7 +43,7 @@ vad blir test testlista?
   concat [ [(x,[1,7]) | x <- [1,7]],
            [(x,[3]) | x <- [3]],
            [(x,[8,17,38]) | x <- [8,17,38]] ]
-= 
+=
            [(x,[1,7]) | x <- [1,7]],
         ++ [(x,[3]) | x <- [3]],
         ++ [(x,[8,17,38]) | x <- [8,17,38]] ]
@@ -57,7 +57,7 @@ pyths a = [(x,y,z)|x<-[1..a],y<-[1..a],z<-[1..a],x^2+y^2==z^2]
 --4. perfects 500
 --   [6,28,496]
 factors :: Int -> [Int]
-factors n = [x|x<-[1..n],mod n x==0] 
+factors n = [x|x<-[1..n],mod n x==0]
 
 perfects :: Int -> [Int]
 --the factors that matter: b x =take (length (factors x)-1) (factors x)
@@ -93,6 +93,7 @@ encode n xs = [shift n x| x <- xs]
 shift :: Int -> Char -> Char
 shift n c | isLower c = int2let (mod(let2int c+n)26)
           | isUpper c = int2Let (mod(let2int c+n)26)
+                        -- Bug: should subtract position of 'A'. let2int 'A' is -32
           | otherwise = c
 int2let:: Int -> Char
 int2let n = chr (ord 'a'+n)
@@ -100,8 +101,8 @@ int2Let:: Int -> Char
 int2Let n = chr (ord 'A'+n)
 let2int:: Char -> Int
 let2int c = ord c - ord 'a'
+-- Another function is missing here
 isLower:: Char -> Bool
 isLower c = c >= 'a' && c <= 'z'
 isUpper:: Char -> Bool
 isUpper c = c >= 'A' && c <= 'Z'
-
