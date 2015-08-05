@@ -22,5 +22,8 @@ The exercises were hard but on a good level. After working through them you unde
 This chapter started on a high level, introducing the generator concept. It was hard for me to understand.
 After working through all of the exercises, things got clearer.
 
-#2015-07-18 to 2015-07-23: Chapter 6, Recursive functions
-Before reading this book, I had tried some programming in Haskell with recursive functions - check out [my repository haskellbeginner](https://github.com/juliajansson/haskellbeginner) if you are interested - so it was easy to understand. I think recursive functions are fun and a nice recursive definition is beautiful. Good examples.
+#2015-07-18 to 2015-08-03: Chapter 6, Recursive functions
+Before reading this book, I had tried some programming in Haskell with recursive functions - check out [my repository haskellbeginner](https://github.com/juliajansson/haskellbeginner) if you are interested - so it was easy to understand. I think recursive functions are fun and a nice recursive definition is beautiful. Good examples. 
+
+#2015-08-03 to 2015-08-04: Chapter 7, Higher order functions
+I liked this chapter from the beginning. After moving through sections 7.1 and 7.2 I did two exercises. I start to feel like I've improved a lot. 
