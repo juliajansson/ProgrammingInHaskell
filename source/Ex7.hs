@@ -51,9 +51,6 @@ mylength xs =myfoldr (\_ n -> 1+n) 0 xs
 {--
 mymap:: (a->b)->[a]->[b]
 mymap f xs=myfoldr op [] xs
-
-op::(a->b)->[a]->[b]
-op f (x:xs)=f x:op xs
 --}
 
 {--
@@ -63,7 +60,10 @@ map f (x:xs)=(f x:map f xs)
 
 Vad är operatorn?
 formen ska bli op x (f xs)
-op f (x:xs)=f x:f xs
+op x y=(x:y)
+
+map (+1) [1,2]=foldr op [] [1,2]=op 1 (foldr op [] 2)=op 1 (op 2 ([])=
+
 --}
 
 myconcat:: [[a]]->[a]
