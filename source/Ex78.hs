@@ -23,6 +23,11 @@ mydropwhile a (b:bs) | a b       = mydropwhile a bs
                      | otherwise = b:bs
 
 --3.Define map and filter
+myfoldr :: (a->b->b)->b->[a]->b
+myfoldr f v []     = v
+myfoldr f v (x:xs) = f x (myfoldr f v xs)
+
+
 mymap :: (a->b)->[a]->[b]
 mymap f xs=myfoldr op [] xs
     where op x ys=f x:ys
@@ -68,3 +73,35 @@ Låt oss kalla (foldr op e xs) för ys. Då har vi:
   op x ys = f x : ys
 vilket vi kan använda som definition av funktionen op.
 --}
+
+myfilter:: (a->Bool)->[a]->[a]
+myfilter p xs= myfoldr op [] xs
+   where op y (myfoldr op [] (x:xs))|p y       =(y:op x (myfoldr op [] xs))
+                                    |otherwise =(op x (myfoldr op [] xs))
+
+{-
+(a): filter p (x:xs)|p x       =x:filter p xs
+                    |otherwise =filter p xs   --(Definition av filter)
+(b): foldr op e (x:xs) = op x (foldr op e xs) --(Definition av foldr)
+(c): filter p xs       = foldr op [] xs       --(Önskning)
+
+filter p (y:x:xs)|p y       =y:filter p (x:xs)
+                 |otherwise =filter p (x:xs)
+=
+filter p (y:x:xs)|p y       =y:foldr op [] (x:xs)
+                 |otherwise =foldr op [] (x:xs)
+=
+filter p (y:x:xs)|p y       =y:op x (foldr op [] xs)
+                 |otherwise =op x (foldr op [] xs)
+
+Men också:
+filter p (y:x:xs)
+=
+foldr op e [] (y:x:xs)
+=
+op y (foldr op [] (x:xs))
+
+Det betyder att:
+op y (foldr op [] (x:xs))|p y       =y:op x (foldr op [] xs)
+                         |otherwise =op x (foldr op [] xs)
+-}
