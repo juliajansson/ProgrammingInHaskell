@@ -49,10 +49,10 @@ klistra ys = foldr (:) ys
 mylength:: [a]->Int
 mylength xs = myfoldr (\_ n -> 1+n) 0 xs
 
-{--
+
 mymap :: (a->b)->[a]->[b]
 mymap f xs=myfoldr op [] xs
---}
+      where op x ys=f x:ys
 
 {--
 map :: (a->b)->[a]->[b]
