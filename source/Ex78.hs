@@ -76,15 +76,33 @@ vilket vi kan använda som definition av funktionen op.
 
 myfilter:: (a->Bool)->[a]->[a]
 myfilter p xs= myfoldr op [] xs
-   where op y (myfoldr op [] (x:xs))|p y       =(y:op x (myfoldr op [] xs))
-                                    |otherwise =(op x (myfoldr op [] xs))
+   where op y ys | p y       = y:ys
+                 | otherwise = ys
 
 {-
-(a): filter p (x:xs)|p x       =x:filter p xs
-                    |otherwise =filter p xs   --(Definition av filter)
+(a): filter p (x:xs)|p x       = x:filter p xs
+                    |otherwise = filter p xs   --(Definition av filter)
 (b): foldr op e (x:xs) = op x (foldr op e xs) --(Definition av foldr)
 (c): filter p xs       = foldr op [] xs       --(Önskning)
 
+  op x (foldr op e xs)
+= { (b) "baklänges" }
+  foldr op e (x:xs)
+= { (c) }
+  filter p (x:xs)
+= { (a) }
+  if p x  then x:filter p xs
+          else   filter p xs
+= { (c) }
+  if p x  then x:foldr op [] xs
+          else   foldr op [] xs
+
+Generallisera från (foldr op e xs) till ys
+  op x ys = if p x then x:ys else ys
+Det blir definitionen av op!
+
+
+{- Some confusion
 filter p (y:x:xs)|p y       =y:filter p (x:xs)
                  |otherwise =filter p (x:xs)
 =
@@ -104,4 +122,8 @@ op y (foldr op [] (x:xs))
 Det betyder att:
 op y (foldr op [] (x:xs))|p y       =y:op x (foldr op [] xs)
                          |otherwise =op x (foldr op [] xs)
+-}
+
+
+
 -}
