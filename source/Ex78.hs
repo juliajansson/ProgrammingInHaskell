@@ -72,7 +72,7 @@ Det betyder att
 Låt oss kalla (foldr op e xs) för ys. Då har vi:
   op x ys = f x : ys
 vilket vi kan använda som definition av funktionen op.
---}
+-}
 
 myfilter:: (a->Bool)->[a]->[a]
 myfilter p xs= myfoldr op [] xs
@@ -105,3 +105,42 @@ Det betyder att:
 op y (foldr op [] (x:xs))|p y       =y:op x (foldr op [] xs)
                          |otherwise =op x (foldr op [] xs)
 -}
+
+--4. Define dec2int using foldl
+{-
+dec2int [2,3,4,5]=2345
+f v []=v
+f v (x:xs) = f (v op x) xs
+
+foldl op v []=v
+foldl op v (x:xs)=foldl (op v x) xs
+
+dec2int' v []=v
+dec2int' v (x:xs)=dec2int' (v op x) xs
+
+dec2int' 0 []=0
+dec2int' 0 (x:xs)=dec2int' (0 op x) xs
+
+dec2int' 0 [2,3,4,5]=dec2int' (0 op 2) [3,4,5]=dec2int' ((0 op 2) op 3) [4,5]=
+dec2int' (((0 op 2) op 3) op 4) [5]=dec2int' ((((0 op 2) op 3) op 4) op 5) []=
+(op (op (op (op 0 2) 3) 4) 5)=(vill)=2345=2*1000+3*100+4*10+5*1
+
+op 0 2=2
+op (op 0 2) 3 =23
+op 2 3=23
+op (op (op 0 2) 3) 4=234
+op 23 4=234
+op (op (op (op 0 2) 3) 4) 5=2345
+op 234 5=2345
+
+op x y=10x+y
+
+dec2int:: [Int]->Int
+dec2int=dec2int' 0
+     where
+        dec2int' v []=v
+        dec2int' v (x:xs)= dec2int' (op v x) xs
+-}
+dec2int:: [Int]->Int
+dec2int= myfoldr op 0
+   where op x y =10*x + y
