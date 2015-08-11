@@ -76,9 +76,16 @@ vilket vi kan använda som definition av funktionen op.
 
 myfilter:: (a->Bool)->[a]->[a]
 myfilter p xs= myfoldr op [] xs
-   where op y (myfoldr op [] (x:xs))|p y       =(y:op x (myfoldr op [] xs))
-                                    |otherwise =(op x (myfoldr op [] xs))
-
+    where op y ys | p y       = y:ys
+                  | otherwise = ys
+{-
+where op y (myfoldr op [] (x:xs))|p y       =(y:op x (myfoldr op [] xs))
+                                 |otherwise =(op x (myfoldr op [] xs))
+myfoldr op [] xs=kan förenklas till=xs
+Test:
+myfilter even []=myfoldr op [] []=[]
+myfilter even [3,4]=myfoldr op [] [3,4]=[4] 
+-}
 {-
 (a): filter p (x:xs)|p x       =x:filter p xs
                     |otherwise =filter p xs   --(Definition av filter)
@@ -142,5 +149,18 @@ dec2int=dec2int' 0
         dec2int' v (x:xs)= dec2int' (op v x) xs
 -}
 dec2int:: [Int]->Int
-dec2int= myfoldr op 0
-   where op x y =10*x + y
+dec2int xs= myfoldr op 0 xs
+   where op x y |y==0      =x
+                |otherwise =10*x + y
+
+{-
+Test, när op är fel
+dec2int [8]=foldr op 0 [8]= op 8 (foldr op 0 [])= op 8 0=80
+dec2int [8,8]=foldr op 0 (8:[8])= op 8 (foldr op 0 [8])=op 8 (op 8 0)=op 8 80=160
+Test, när op är tvärtom
+dec2int [9,8]= foldr op 0 [9,8]=op 9 (op 8 0)=op 9 8=op 89
+
+Test, med ny op
+dec2int [9,8]= op 9 (op 8 0)=op 9 8=98
+dec2int [8,8,8,9]=op 8(op 8(op8(op 9 0)))=op 8( op 8 89)=
+-}
