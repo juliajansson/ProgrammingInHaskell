@@ -148,10 +148,14 @@ dec2int=dec2int' 0
         dec2int' v []=v
         dec2int' v (x:xs)= dec2int' (op v x) xs
 -}
+myfoldl::(a->b->a)->a->[b]->a
+myfoldl f v []=v
+myfoldl f v (x:xs)=myfoldl f (f v x) xs
+
 dec2int:: [Int]->Int
-dec2int xs= myfoldr op 0 xs
-   where op x y |y==0      =x
-                |otherwise =10*x + y
+--dec2int xs= myfoldr op 0 xs
+dec2int xs=foldl op 0 xs
+   where op x y = 10*x + y
 
 {-
 Test, när op är fel
@@ -164,3 +168,5 @@ Test, med ny op
 dec2int [9,8]= op 9 (op 8 0)=op 9 8=98
 dec2int [8,8,8,9]=op 8(op 8(op8(op 9 0)))=op 8( op 8 89)=
 -}
+
+--5. Explain whey is sumsqreven = compose [sum, map (^2),filter even] invalid
