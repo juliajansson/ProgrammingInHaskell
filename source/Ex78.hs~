@@ -1,0 +1,7 @@
+--2. Define all even, any odd, takeWhile, dropWhile
+myalleven:: [Int]->Bool
+myalleven xs= filter xs==xs
+
+myanyodd:: [Int]->Bool
+myanyodd xs|filter xs==[]=False
+           |otherwise    =True

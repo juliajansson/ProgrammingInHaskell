@@ -169,4 +169,26 @@ dec2int [9,8]= op 9 (op 8 0)=op 9 8=98
 dec2int [8,8,8,9]=op 8(op 8(op8(op 9 0)))=op 8( op 8 89)=
 -}
 
---5. Explain whey is sumsqreven = compose [sum, map (^2),filter even] invalid
+--5. Explain why is sumsqreven = compose [sum, map (^2),filter even] is invalid
+{-
+Definitioner:
+sumsqreven ns = sum (map (^2) (filter even ns))
+sumsqreven = sum . map (^2) . filter even
+
+Varför funkar inte denna då?
+sumsqreven = compose [sum, map (^2),filter even]
+
+Definition av compose:
+compose:: [a->a]->(a->a)
+compose = foldr (.) id
+compose []=id
+compose (f:fs)= f . compose fs
+
+compose [sum,map (^2), filter even]=sum . compose [map (^2), filter even]=
+sum . map(^2) . filter even . id=sum (map (^2) (filter even (id)))
+
+Test:
+sum (map (^2) (filter even (id ns)))=sum (map (^2) (filter even ns))
+
+It's working?
+-}
