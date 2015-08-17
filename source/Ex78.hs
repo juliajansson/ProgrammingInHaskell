@@ -179,11 +179,12 @@ Varför funkar inte denna då?
 sumsqreven = compose [sum, map (^2),filter even]
 
 Definition av compose:
+-}
 compose:: [a->a]->(a->a)
 compose = foldr (.) id
-compose []=id
-compose (f:fs)= f . compose fs
-
+compose' []=id
+compose' (f:fs)= f . compose' fs
+{-
 compose [sum,map (^2), filter even]=sum . compose [map (^2), filter even]=
 sum . map(^2) . filter even . id=sum (map (^2) (filter even (id)))
 
@@ -191,4 +192,84 @@ Test:
 sum (map (^2) (filter even (id ns)))=sum (map (^2) (filter even ns))
 
 It's working?
+
+So the types are not working, compose can't handle the list of functions that are of different types. sum has a different type.
 -}
+
+--6. Define curry and uncurry
+mycurry:: ((a,b)->c)->(a->b->c)
+mycurry f= fwrap
+   where fwrap a b= f (a,b)
+
+add::Num a=>(a,a)->a
+add (a,b)=a+b
+
+add'::Num a=>a->a->a
+add' a b=a+b
+{-
+f (a,b)=c
+f a b  =(f a) b=c
+
+add (a,b)=a+b
+add' a b=(adda) b=a+b
+
+f (a,b)=f (wrap a b)
+-}
+myuncurry:: (a->b->c)->((a,b)->c)
+myuncurry f=funwrap
+     where funwrap (a,b)= f a b
+
+--7.Redefine chop8, map f and iterate f using unfold.
+
+unfold p h t x|p x      =[]
+              |otherwise=h x:unfold p h t (t x)
+{-
+Unfold definition:
+int2bin = unfold (==0) ('mod' 2) ('div' 2)
+
+First defenition:
+int2bin 0 = []
+int2bin n = n 'mod' 2:int2bin (n 'div' 2)
+
+First definition:
+chop8:: [Bit]->[[Bit]]
+chop8 []=[]
+chop8 bits=take 8 bits:chop8 (drop 8 bits)
+
+Unfold definition:
+chop8=unfold (==[]) (take 8) (drop 8)
+
+-}
+type Bit = Int
+chop8::[Bit]->[[Bit]]
+chop8=unfold (==[]) (take 8) (drop 8)
+
+{-
+First definition:
+iterate:: (a->a)->a->[a]
+iterate f n=[]
+iterate f x= [x,f x, f (f x), f (f (f x)),...]
+              
+What is n????
+n does not exist!!!1
+Therefore p=False
+
+iterate =unfold False h t
+
+What is h and t???
+I have to write iterate as a recursive function first.
+
+iterate f x=x:iterate f (f x)
+
+Now it's easy to see :)
+
+iterate f= unfold (makeFalse) (id) (f)
+
+-}
+
+makeFalse:: a->Bool
+makeFalse a=False
+
+--myiterate f=unfold (makeFalse) (id) (f)
+myiterate::(a->a)->a->[a]
+myiterate =unfold (makeFalse) (id)
