@@ -224,6 +224,7 @@ myuncurry f=funwrap
 unfold p h t x|p x      =[]
               |otherwise=h x:unfold p h t (t x)
 {-
+chop8
 Unfold definition:
 int2bin = unfold (==0) ('mod' 2) ('div' 2)
 
@@ -245,6 +246,7 @@ chop8::[Bit]->[[Bit]]
 chop8=unfold (==[]) (take 8) (drop 8)
 
 {-
+iterate f
 First definition:
 iterate:: (a->a)->a->[a]
 iterate f n=[]
@@ -273,3 +275,15 @@ makeFalse a=False
 --myiterate f=unfold (makeFalse) (id) (f)
 myiterate::(a->a)->a->[a]
 myiterate =unfold (makeFalse) (id)
+
+{-
+map f
+First definition:
+map f []=[]
+map f (x:xs)=f x:map f xs
+
+Unfold definiton:
+map f =unfold (==[]) (f) (f)
+-}
+themap:: (a->b)->[a]->[b]
+themap f =unfold (==[]) (f) (f)
