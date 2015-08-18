@@ -311,5 +311,5 @@ map f=unfold (==[]) (f (head)) (f (tail))
 -}
 
 themap:: (a->a)->[a]->[a]
-themap f ns=unfold (==[]) (f (head ns)) (f (head (tail ns))) 
+themap f =unfold (null) (f . head) (tail)
 
