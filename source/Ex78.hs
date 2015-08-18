@@ -282,8 +282,34 @@ First definition:
 map f []=[]
 map f (x:xs)=f x:map f xs
 
-Unfold definiton:
-map f =unfold (==[]) (f) (f)
+map f =unfold (==[]) (f) ?
+
+From the unfold definition:
+otherwise= f x:unfold (==[]) (f) t (t x)
+
+unfold (==[]) (f) t (t x)
+=
+map f xs
+
+map f [1,2,3]=unfold (==[]) (f) t [1,2,3]=f 1:unfold (==[]) (f) t (t x)=
+f 1:f 2:unfold (==[]) (f) t (t x)=f 1:f 2:f 3:[]
+
+unfold (==[]) (f) t
+
+map f (x:xs)=f x:map f xs
+map f (x:xs)=unfold (==[]) (f) t=f x:unfold (==[]) (f) t (t (f (x:xs))=
+
+map (+1) [1,2,3]=2:map (+1) [2,3]=2:3:map (+1) [3]=2:3:4:[]
+
+Försöker skriva på chop8 form, då det också hade en lista:
+Vi har f x. Som är head (x:xs)
+Sedan kmr map igen.
+Då har vi kvar f xs. Som är tail (x:xs)
+
+map f ns=unfold (==[]) (f (head ns)) (f (tail ns))
+map f=unfold (==[]) (f (head)) (f (tail))
 -}
-themap:: (a->b)->[a]->[b]
-themap f =unfold (==[]) (f) (f)
+
+themap:: (a->a)->[a]->[a]
+themap f ns=unfold (==[]) (f (head ns)) (f (head (tail ns))) 
+
