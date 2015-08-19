@@ -314,19 +314,30 @@ map f=unfold (==[]) (f (head)) (f (tail))
 themap:: (a->a)->[a]->[a]
 themap f =unfold (null) (f . head) (tail)
 
---7.Modify the string program to detect simple transmission errors using parity bits. That is, each eight-bit binary number produced during encoding is extended with a parity bit, set to one if the number contains an odd number of ones, and to zero otherwise. In turn, each resulting nine-bit binary number consumed during decoding is checked to insure the paity bit is correct, with the parity bit being discarded if this is the case, and a parity error reported otherwise.
+--7.Modify the string program to detect simple transmission errors using parity bits. That is, each eight-bit binary number produced during encoding is extended with a parity bit, set to one if the number contains an odd number of ones, and to zero otherwise. In turn, each resulting nine-bit binary number consumed during decoding is checked to ensure the parity bit is correct, with the parity bit being discarded if this is the case, and a parity error reported otherwise.
 transmit:: String->String
 transmit = decode . channel . encode
 
 channel:: [Bit]->[Bit]
-channel = id
+{-
+channel bs = start ++ 0:tail rest
+  where
+  start = take 9 bs
+  rest = drop 9 bs
+-}
+channel =id
 
 decode:: [Bit] -> String
-decode ns|parity ((take 8) ns)==last ns =(map (chr . bin2int) . chop8) ns
-         |otherwise                     =error "Parity error!"
+decode ns =(map (chr . bin2int . decode9) . chop9) ns
+
+chop9:: [Bit]->[[Bit]]
+chop9=unfold (==[]) (take 9) (drop 9)
+
+decode9 ns |parity ((take 8) ns)==last ns=take 8 ns
+           |otherwise                    =error "Parity error!"
 
 encode:: String -> [Bit]
-encode = concat . concat . map (make . int2bin . ord)
+encode = concat . map (make . int2bin . ord)
 
 bin2int = foldr (\x y->x+2*y) 0
 
@@ -335,11 +346,17 @@ int2bin = unfold (==0) (`mod` 2) (`div` 2)
 make8:: [Bit]->[Bit]
 make8 bits = take 8 (bits ++ repeat 0)
 
+testmake8=make8 [1,1,0,1] ==[1,1,0,1,0,0,0,0]
+
 make9:: [Bit]->[Bit]
 make9 bits=bits ++ [parity bits]
 
-make:: [Bit]->[[Bit]]
-make bits=map make9 (chop8 (make8 bits))
+testmake9=make9 (make8 [1,1,0,1]) 
+
+make:: [Bit]->[Bit]
+make bits=make9 (make8 bits)
+
+testmake=make testmake9
 
 parity:: [Bit]->Bit
 parity bits|isEven (takeOnes bits)=0
