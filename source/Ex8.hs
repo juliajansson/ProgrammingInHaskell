@@ -23,6 +23,7 @@ myparse:: Parser a->String ->[(a,String)]
 myparse p inp= p inp
 
 --More parse functions
+{-
 pmap:: (a->b)->Parser a->Parser b
 pmap f pa = pb
   where pb s = pa (f s)
@@ -35,3 +36,9 @@ char2int c = ord c - ord '0'
 type Digit = Int
 digit :: Parser Digit
 digit = pmap char2int myitem
+-}
+--8.4
+sequencing::Parser a->(a->Parser b)->Parser b
+sequencing p f=(\inp-> case myparse p inp of
+                       []->[]
+                       [(v,out)]->myparse (f v) out)
