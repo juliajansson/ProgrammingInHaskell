@@ -28,5 +28,8 @@ Before reading this book, I had tried some programming in Haskell with recursive
 #2015-08-03 to 2015-08-19: Chapter 7, Higher order functions
 I liked this chapter from the beginning. After moving through sections 7.1 and 7.2 I did two exercises. I start to feel like I've improved a lot. Some of the exercises I found really hard, but in the end I made all of them, with some help from my dad.
 
-#2015-08-20 to 2015-08-21: Chapter 8, Functional parsers
-Parsers are an entirely new concept for me. It was well explained.
+#2015-08-20 to 2015-09-01: Chapter 8, Functional parsers
+Parsers are an entirely new concept for me. It was well explained. I found it very hard.
+After being stuck on parsers for long I continue with chapter 10.
+
+#2015-09-01: Chapter 10, Declaring types and classes
