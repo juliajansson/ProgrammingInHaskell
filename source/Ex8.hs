@@ -38,7 +38,24 @@ digit :: Parser Digit
 digit = pmap char2int myitem
 -}
 --8.4
-sequencing::Parser a->(a->Parser b)->Parser b
-sequencing p f=(\inp-> case myparse p inp of
+mysequencing::Parser a->(a->Parser b)->Parser b
+mysequencing p f=(\inp-> case myparse p inp of
                        []->[]
                        [(v,out)]->myparse (f v) out)
+{-
+p:: Parser (Char, Char)
+p = do x <- myitem
+       myitem
+       y <- myitem
+       return (x,y)
+
+orelse:: Parser a->Parser a->Parser a
+orelse p q=\inp->case parse p inp of
+                      []->parse q inp
+                      [(v, out)]->[(v, out)]
+
+sat:: (Char->Bool)->Parser Char
+sat p = do x <- myitem
+           if p x then return x else myfailure
+-}
+--Nothing works.
