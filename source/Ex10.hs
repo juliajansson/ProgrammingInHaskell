@@ -99,3 +99,8 @@ data Tree a   = Leaf a | Node (Tree a )(Tree a)
 data Tree a   = Leaf | Node (Tree a) a (Tree a)
 data Tree a b = Leaf a | Node (Tree a b) b (Tree a b)
 data Tree a   = Node a [Tree a]
+
+
+--Exercise 1, using recursion and add define mult
+mult:: Nat'->Nat'->Nat'
+mult a b= addNat (mult (a-1) b) b 
