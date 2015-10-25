@@ -94,3 +94,8 @@ occurs' m (Node l n r)
         |m==n      =Tree
         |m<n       =occurs' m l
         |otherwise =occurs' m r
+
+data Tree a   = Leaf a | Node (Tree a )(Tree a)
+data Tree a   = Leaf | Node (Tree a) a (Tree a)
+data Tree a b = Leaf a | Node (Tree a b) b (Tree a b)
+data Tree a   = Node a [Tree a]
