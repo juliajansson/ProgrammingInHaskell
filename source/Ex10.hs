@@ -104,3 +104,16 @@ data Tree a   = Node a [Tree a]
 --Exercise 1, using recursion and add define mult
 mult:: Nat'->Nat'->Nat'
 mult a b= addNat (mult (a-1) b) b 
+
+data Ordering :: LT | EQ | GT
+compare:: Ord a =>a -> a -> Ordering
+compare m n |m==n =EQ
+            |m>n  =GT
+            |m<n  =LT
+            
+occurs'':: Int->Tree->Bool
+occurs'' m (Leaf n) = compare m n==EQ
+occurs'' m (Node l n r)
+           |compare m n==EQ =Tree
+           |compare m n==LT =occurs'' m l
+           |otherwise       =occurs'' m r
