@@ -52,7 +52,7 @@ safehead::[a]->Maybe' a
 safehead []=Nothing'
 safehead xs=Just'(head xs)
 
-data Nat'=Zero | Succ Nat'
+data Nat'=Zero | Succ Nat' deriving Show
 --Succ (+1)
 nat2int:: Nat'->Int
 nat2int Zero    =0
@@ -88,10 +88,56 @@ flatten:: Tree->[Int]
 flatten (Leaf n)=[n]
 flatten (Node l n r)=flatten l++[n]++flatten r
 
-occurs':: Tree->[Int]
+occurs':: Int->Tree->Bool
 occurs' m (Leaf n) =m==n
 occurs' m (Node l n r)
-        |m==n      =Tree
+        |m==n      =True
         |m<n       =occurs' m l
         |otherwise =occurs' m r
+
                     
+data Tree1 a   = Leaf1 a | Node1 (Tree1 a )(Tree1 a)
+data Tree2 a   = Leaf2 | Node2 (Tree2 a) a (Tree2 a)
+data Tree3 a b = Leaf3 a | Node3 (Tree3 a b) b (Tree3 a b)
+data Tree4 a   = Node4 a [Tree4 a]
+
+instance Num Nat' where
+  (+)=addNat
+  (-)=subNat
+  (*)=mult
+  fromInteger = intToNat
+
+intToNat::Integer->Nat'
+intToNat 0=Zero
+intToNat a|a>0=Succ (intToNat (a-1))
+          |a<0=error "NAJJJJJJ"
+
+natToInt::Nat'->Integer
+natToInt Zero=0
+natToInt (Succ a)=1+ natToInt a
+--Exercise 1, using recursion and add define mult
+mult:: Nat'->Nat'->Nat'
+mult Zero b=Zero
+mult a b   = addNat (mult (a-1) b) b
+
+fabmult::Nat'->Nat'->Integer
+fabmult a b=natToInt (mult a b)
+
+subNat:: Nat'->Nat'->Nat'
+subNat a Zero=a
+subNat (Succ a) (Succ b)= subNat a b
+subNat Zero b=error "NAJJJJJJ"
+
+--data Ordering = LT |EQ |GT
+compare':: Ord a =>a -> a -> Ordering
+compare' m n |m==n =EQ
+            |m>n  =GT
+            |m<n  =LT
+            
+occurs'':: Int->Tree->Bool
+occurs'' m (Leaf n) = compare' m n==EQ
+occurs'' m (Node l n r)
+           |compare' m n==EQ =True
+           |compare' m n==LT =occurs'' m l
+           |otherwise        =occurs'' m r
+
