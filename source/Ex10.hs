@@ -94,3 +94,4 @@ occurs' m (Node l n r)
         |m==n      =Tree
         |m<n       =occurs' m l
         |otherwise =occurs' m r
+                    
