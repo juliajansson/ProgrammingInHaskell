@@ -75,7 +75,7 @@ len::List a->Int
 len Nil        =0
 len (Cons _ xs)=1+len xs
 
-data Tree = Leaf Int | Node Tree Int Tree
+data Tree = Leaf Int | Node Tree Int Tree deriving Show
 
 t:: Tree
 t = Node(Node (Leaf 1) 3 (Leaf 4)) 5 (Node (Leaf 6) 7 (Leaf 9))
@@ -128,7 +128,7 @@ subNat a Zero=a
 subNat (Succ a) (Succ b)= subNat a b
 subNat Zero b=error "NAJJJJJJ"
 
---data Ordering = LT |EQ |GT
+--Exercise 2, data Ordering = LT |EQ |GT, define occurs''
 compare':: Ord a =>a -> a -> Ordering
 compare' m n |m==n =EQ
             |m>n  =GT
@@ -141,3 +141,29 @@ occurs'' m (Node l n r)
            |compare' m n==LT =occurs'' m l
            |otherwise        =occurs'' m r
 
+--Exercise 3, define balanced
+data Tree5= Leaf5 Int| Node5 Tree5 Tree5
+
+fulltree::Int->Tree
+fulltree 0=Leaf 0
+fulltree x=Node (fulltree (x-1)) x (fulltree (x-1))
+
+leafnumber::Tree->Int
+leafnumber (Leaf n)    =1
+leafnumber (Node l n r)=(leafnumber l)+1+(leafnumber r)
+
+balanced:: Tree->Bool
+balanced (Leaf n)=True
+balanced (Node l _ r)|leafnumber l==leafnumber r    =True
+                     |(leafnumber l)+1==leafnumber r=True
+                     |leafnumber l==(leafnumber r)+1=True
+                     |otherwise=False
+
+--Exercise 4, define balance
+fabsplit:: [a]->([a],[a])
+fabsplit [] =([],[])
+fabsplit (x:(y:xs))|1==length (y:xs)=([x],(y:xs))
+                   |2==length (y:xs)=([x],(y:xs))
+                   |null (y:xs)     =([x],(y:xs))
+                   |otherwise       =fabsplit (x:y:xs)
+--balance:: [Int]->Tree
